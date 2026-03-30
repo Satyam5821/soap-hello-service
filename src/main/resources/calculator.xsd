@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+	targetNamespace="http://spring.io/guides/gs-producing-web-service"
+	xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+
+	elementFormDefault="qualified">
+
+	 <!-- Add -->
+    <xs:element name="AddRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="a" type="xs:int"/>
+                <xs:element name="b" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <xs:element name="AddResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <!-- Subtract -->
+    <xs:element name="SubtractRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="a" type="xs:int"/>
+                <xs:element name="b" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="SubtractResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <!-- Multiply -->
+    <xs:element name="MultiplyRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="a" type="xs:int"/>
+                <xs:element name="b" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="MultiplyResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <!-- Divide -->
+    <xs:element name="DivideRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="a" type="xs:int"/>
+                <xs:element name="b" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="DivideResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="result" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+  </xs:schema>

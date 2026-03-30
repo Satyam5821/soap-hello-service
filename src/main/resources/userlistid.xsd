@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+
+	targetNamespace="http://spring.io/guides/gs-producing-web-service"
+	xmlns:tns="http://spring.io/guides/gs-producing-web-service"
+
+	elementFormDefault="qualified">
+ 
+     <!-- Request Message -->
+    <xs:element name="UserFileidRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeId" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+    <!-- Response Message -->
+    <xs:element name="UserFileidResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <!-- Employee details returned in the response -->
+                <xs:element name="content" type="xs:string"/>
+                <!-- Success flag indicating if the request was successful -->
+                <xs:element name="success" type="xs:boolean"/>
+                <!-- Message providing additional info -->
+                <xs:element name="message" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+ 
+</xs:schema>

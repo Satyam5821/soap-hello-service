@@ -1,0 +1,300 @@
+package com.example.soapservice.endpoint;
+
+import io.spring.guides.gs_producing_web_service.AddRequest;
+import io.spring.guides.gs_producing_web_service.AddResponse;
+import io.spring.guides.gs_producing_web_service.CalculateEmiRequest;
+import io.spring.guides.gs_producing_web_service.CalculateEmiResponse;
+import io.spring.guides.gs_producing_web_service.DivideRequest;
+import io.spring.guides.gs_producing_web_service.DivideResponse;
+
+import io.spring.guides.gs_producing_web_service.GetHelloRequest;
+import io.spring.guides.gs_producing_web_service.GetHelloResponse;
+import io.spring.guides.gs_producing_web_service.MultiplyRequest;
+import io.spring.guides.gs_producing_web_service.MultiplyResponse;
+import io.spring.guides.gs_producing_web_service.PremiumCalculatorRequest;
+import io.spring.guides.gs_producing_web_service.PremiumCalculatorResponse;
+import io.spring.guides.gs_producing_web_service.ShippingRequest;
+import io.spring.guides.gs_producing_web_service.ShippingResponse;
+import io.spring.guides.gs_producing_web_service.SubtractRequest;
+import io.spring.guides.gs_producing_web_service.SubtractResponse;
+import io.spring.guides.gs_producing_web_service.TextFileRequest;
+import io.spring.guides.gs_producing_web_service.TextFileResponse;
+import io.spring.guides.gs_producing_web_service.UserFileRequest;
+import io.spring.guides.gs_producing_web_service.UserFileResponse;
+import io.spring.guides.gs_producing_web_service.UserFileidRequest;
+import io.spring.guides.gs_producing_web_service.UserFileidResponse;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+
+import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
+
+
+import com.example.soapservice.Services.PremiumCalculatorService;
+
+@Endpoint
+public class HelloEndpoint {
+
+	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
+	@ResponsePayload
+	public GetHelloResponse getHello(@RequestPayload GetHelloRequest request) {
+
+		GetHelloResponse response = new GetHelloResponse();
+		response.setGreeting("Hello " + request.getName() + "!");
+		return response;
+
+	}
+	
+	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "AddRequest")
+    @ResponsePayload
+    public AddResponse add(@RequestPayload AddRequest request) {
+        AddResponse response = new AddResponse();
+        response.setResult(request.getA() + request.getB());
+        return response;
+    }
+ 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "SubtractRequest")
+    @ResponsePayload
+    public SubtractResponse subtract(@RequestPayload SubtractRequest request) {
+        SubtractResponse response = new SubtractResponse();
+        response.setResult(request.getA() - request.getB());
+        return response;
+    }
+ 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "MultiplyRequest")
+    @ResponsePayload
+    public MultiplyResponse multiply(@RequestPayload MultiplyRequest request) {
+        MultiplyResponse response = new MultiplyResponse();
+        response.setResult(request.getA() * request.getB());
+        return response;
+    }
+ 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "DivideRequest")
+    @ResponsePayload
+    public DivideResponse divide(@RequestPayload DivideRequest request) {
+        DivideResponse response = new DivideResponse();
+        if (request.getB() != 0) {
+            response.setResult(request.getA() / request.getB());
+        } else {
+            throw new IllegalArgumentException("Division by zero is not allowed");
+        }
+        return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CalculateEmiRequest")
+    @ResponsePayload
+    public CalculateEmiResponse calculateEmi(@RequestPayload CalculateEmiRequest request) {
+        double principal = request.getPrincipal();
+        double annualRate = request.getAnnualInterestRate();
+        int tenureMonths = request.getTenureMonths();
+ 
+        double monthlyRate = annualRate / 12 / 100;
+        double emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
+                     (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+ 
+        CalculateEmiResponse response = new CalculateEmiResponse();
+        response.setEmi(Math.round(emi * 100.0) / 100.0); 
+        return response;
+    }
+    
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "ShippingRequest")
+    @ResponsePayload
+    public ShippingResponse calculateETA(@RequestPayload ShippingRequest request) {
+ 
+        String origin = request.getOrigin().trim().toLowerCase();
+        String destination = request.getDestination().trim().toLowerCase();
+ 
+        int daysToAdd;
+ 
+        if (origin.equals(destination)) {
+            daysToAdd = 1;
+        } else if (getState(origin).equals(getState(destination))) {
+            daysToAdd = 5;
+        } else {
+            daysToAdd = 10;
+        }
+ 
+        LocalDate estimatedDate = LocalDate.now().plusDays(daysToAdd);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+ 
+        ShippingResponse response = new ShippingResponse();
+        response.setEstimatedDeliveryDate(estimatedDate.format(formatter));
+ 
+        return response;
+    }
+ 
+    // Dummy state  (we can hve more later)
+    private String getState(String city) {
+        if (city.contains("delhi") || city.contains("gurgaon") || city.contains("noida")) {
+            return "Delhi NCR";
+        } else if (city.contains("mumbai") || city.contains("pune")) {
+            return "Maharashtra";
+        } else if (city.contains("bangalore") || city.contains("mysore")) {
+            return "Karnataka";
+        }
+        return "Other";
+    }
+    
+    @Autowired
+    private PremiumCalculatorService premiumCalculatorService;
+ 
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "PremiumCalculatorRequest")
+    @ResponsePayload
+    public PremiumCalculatorResponse calculatePremium(@RequestPayload PremiumCalculatorRequest request) {
+      PremiumCalculatorResponse response = new PremiumCalculatorResponse();
+      try {
+        // Validate input
+        if (request.getCustomerAge() < 18 || request.getCustomerAge() > 100) {
+          response.setSuccess(false);
+          response.setMessage("Invalid age. Age must be between 18 and 100.");
+          response.setPremium(0.0);
+          return response;
+        }
+        if (request.getVehicleType() == null || request.getLocation() == null) {
+          response.setSuccess(false);
+          response.setMessage("Vehicle type and location are required.");
+          response.setPremium(0.0);
+          return response;
+
+        }       
+        double premium = premiumCalculatorService.calculatePremium(
+          request.getCustomerAge(),
+          request.getVehicleType(),
+          request.getLocation()
+        );
+
+         
+
+        response.setSuccess(true);
+        response.setPremium(premium);
+        response.setMessage("Premium calculated successfully");
+
+      } catch (Exception e) {
+        response.setSuccess(false);
+        response.setMessage("Error calculating premium: " + e.getMessage());
+        response.setPremium(0.0);
+
+      }
+      return response;
+
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "TextFileRequest")
+    @ResponsePayload
+    public TextFileResponse getTextFileContent(@RequestPayload TextFileRequest request) {
+        TextFileResponse response = new TextFileResponse();
+        try {
+            ClassPathResource resource = new ClassPathResource(request.getFileName());
+            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+ 
+            response.setContent(content);
+            response.setSuccess(true);
+            response.setMessage("File read successfully");
+        } catch (IOException e) {
+            response.setContent("");
+            response.setSuccess(false);
+            response.setMessage("Error reading file: " + e.getMessage());
+        }
+        return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileRequest")
+    @ResponsePayload
+    public UserFileResponse getuserFileContent(@RequestPayload UserFileRequest request) {
+    	UserFileResponse response = new UserFileResponse();
+        try {
+            ClassPathResource resource = new ClassPathResource(request.getFileName());
+            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+ 
+            response.setContent(content);
+            response.setSuccess(true);
+            response.setMessage("File read successfully");
+        } catch (IOException e) {
+            response.setContent("");
+            response.setSuccess(false);
+            response.setMessage("Error reading file: " + e.getMessage());
+        }
+        return response;
+    }
+    
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
+    @ResponsePayload
+    public UserFileidResponse getFileidResponse(@RequestPayload UserFileidRequest request) {
+    	UserFileidResponse response = new UserFileidResponse();
+    	 
+        try {
+            // Fetch employee data (filtered by ID)
+            String employeeData = getEmployeeDataById(request.getEmployeeId());
+ 
+            if (employeeData == null || employeeData.isEmpty()) {
+                response.setSuccess(false);
+                response.setMessage("Employee not found for ID: " + request.getEmployeeId());
+            } else {
+                response.setContent(employeeData);
+                response.setSuccess(true);
+                response.setMessage("Employee data fetched successfully");
+            }
+        } catch (Exception e) {
+            response.setSuccess(false);
+            response.setMessage("Error reading file: " + e.getMessage());
+        }
+        return response;
+    }
+ 
+    private String getEmployeeDataById(int employeeId) {
+        try {
+            
+            ClassPathResource resource = new ClassPathResource("userlistid.txt");
+            if (!resource.exists()) {
+                throw new IOException("File not found: " + resource.getFilename());
+            }           
+            String content = new String(Files.readAllBytes(resource.getFile().toPath()), StandardCharsets.UTF_8);
+ 
+            
+            String[] records = content.split("\n");
+            if (records == null || records.length == 0) {
+                return null; 
+            }      
+            for (String record : records) {
+                String[] fields = record.split(","); 
+                if (fields.length == 3 && Integer.parseInt(fields[0]) == employeeId) {  
+                    return formatEmployeeData(fields); 
+                }
+            }
+ 
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;  
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return null;  
+        }
+ 
+        return null;  
+    }
+ 
+    
+    private String formatEmployeeData(String[] fields) {
+        return String.format("ID: %s\nName: %s\nEmail: %s", fields[0], fields[1], fields[2]);
+    }
+  
+
+
+    
+
+
+}
