@@ -69,7 +69,7 @@ public class PremiumCalculatorService {
 	            logger.warn("Skipping invalid row {}: {}", i, e.getMessage());
 	          }
 	        }
-	        System.out.println("Loaded " + premiumDataList.size() + " premium records from CSV");	         
+	        logger.info("Loaded {} premium records from CSV", premiumDataList.size());	         
 	      }
 	    } catch (IOException | CsvException e) {
 	      System.err.println("Error loading CSV file: " + e.getMessage());
