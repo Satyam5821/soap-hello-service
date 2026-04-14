@@ -50,7 +50,7 @@ public class PremiumCalculatorService {
 	        for (int i = startIndex; i < records.size(); i++) {
 	          String[] record = records.get(i);           
 	          if (record.length < 6) {
-	            System.err.println("Skipping invalid row " + i + ": insufficient columns");
+	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
 	          }	        
 	          try {
