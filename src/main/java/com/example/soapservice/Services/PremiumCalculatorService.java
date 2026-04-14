@@ -18,6 +18,7 @@ import jakarta.annotation.PostConstruct;
 
 @Service
 import org.slf4j.Logger;
+private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 import org.slf4j.LoggerFactory;
 public class PremiumCalculatorService {
 
