@@ -17,6 +17,7 @@ import com.opencsv.exceptions.CsvException;
 import jakarta.annotation.PostConstruct;
 
 @Service
+private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 import org.slf4j.Logger;
 private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 import org.slf4j.LoggerFactory;
