@@ -65,7 +65,7 @@ public class PremiumCalculatorService {
 
 	            premiumDataList.add(data);
 	          } catch (NumberFormatException e) {
-	            System.err.println("Skipping invalid row " + i + ": " + e.getMessage());
+	            logger.warn("Skipping invalid row {}: {}", i, e.getMessage());
 	          }
 	        }
 	        System.out.println("Loaded " + premiumDataList.size() + " premium records from CSV");	         
