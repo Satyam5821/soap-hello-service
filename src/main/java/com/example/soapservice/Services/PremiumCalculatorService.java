@@ -72,7 +72,7 @@ public class PremiumCalculatorService {
 	        logger.info("Loaded {} premium records from CSV", premiumDataList.size());	         
 	      }
 	    } catch (IOException | CsvException e) {
-	      System.err.println("Error loading CSV file: " + e.getMessage());
+	      logger.error("Error loading CSV file: {}", e.getMessage());
 	      loadDefaultData();
 	    }	     
 	    if (premiumDataList.isEmpty()) {
