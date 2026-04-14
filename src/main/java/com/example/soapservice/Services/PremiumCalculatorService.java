@@ -15,13 +15,13 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
-private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
-import org.slf4j.Logger;
-private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
-import org.slf4j.LoggerFactory;
 public class PremiumCalculatorService {
+
+  private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 
 	 private List<PremiumData> premiumDataList = new ArrayList<>();
 	  @PostConstruct
