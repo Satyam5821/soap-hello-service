@@ -40,7 +40,7 @@ public class PremiumCalculatorService {
 	          resource.getInputStream(), StandardCharsets.UTF_8))) {         
 	        List<String[]> records = reader.readAll();	         
 	        if (records.isEmpty()) {
-	          System.err.println("CSV file is empty");
+	          logger.warn("CSV file is empty");
 	          loadDefaultData();
 	          return;
 	        }	         
