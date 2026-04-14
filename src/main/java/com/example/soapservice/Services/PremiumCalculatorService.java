@@ -1,4 +1,4 @@
-package com.example.soapservice.Services;
+package com.example.soapservice.services;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
