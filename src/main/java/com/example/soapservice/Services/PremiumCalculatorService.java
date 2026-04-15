@@ -1,4 +1,4 @@
-package com.example.soapservice.services;
+package com.example.soapservice.Services;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -15,13 +15,13 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
 import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
-private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
-import org.slf4j.Logger;
-private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
-import org.slf4j.LoggerFactory;
 public class PremiumCalculatorService {
+
+  private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 
 	 private List<PremiumData> premiumDataList = new ArrayList<>();
 	  @PostConstruct
@@ -72,7 +72,7 @@ public class PremiumCalculatorService {
 	        System.out.println("Loaded " + premiumDataList.size() + " premium records from CSV");	         
 	      }
 	    } catch (IOException | CsvException e) {
-	      System.err.println("Error loading CSV file: " + e.getMessage());
+	      logger.error("Error loading CSV file: {}", e.getMessage());
 	      loadDefaultData();
 	    }	     
 	    if (premiumDataList.isEmpty()) {
