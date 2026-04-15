@@ -27,6 +27,7 @@ import org.springframework.xml.xsd.XsdSchema;
 @EnableWs
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
+  private static final String DEFAULT_TARGET_NAMESPACE = "http://spring.io/guides/gs-producing-web-service";
   @Bean
   public ServletRegistrationBean<MessageDispatcherServlet> helloDispatcherServlet(ApplicationContext applicationContext) {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -42,7 +43,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("HelloPort");
     wsdl11Definition.setLocationUri("/ws/hello");
-    wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+    wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
 
@@ -61,7 +62,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
       DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
       definition.setPortTypeName("UserListPort");
       definition.setLocationUri("/ws/userlist");
-      definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+      definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       definition.setSchema(schema);
       return definition;
   }
@@ -76,7 +77,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
       DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
       definition.setPortTypeName("UserListidPort");
       definition.setLocationUri("/ws/userlistid");
-      definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+      definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       definition.setSchema(userListidSchema);
       return definition;
   }
@@ -91,7 +92,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
       DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
       wsdl11Definition.setPortTypeName("TextFilePort");
       wsdl11Definition.setLocationUri("/ws/readtxt");
-  wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+  wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       wsdl11Definition.setSchema(textFileSchema);
       return wsdl11Definition;
   }
@@ -121,7 +122,7 @@ definition.setTargetNamespace("http://spring.io/guides/shipping-service");
       DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
       definition.setPortTypeName("EmiPort");
       definition.setLocationUri("/emi");
-definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       definition.setSchema(emiSchema);
       return definition;
   }
@@ -136,7 +137,7 @@ definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service"
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("PremiumPort");
     wsdl11Definition.setLocationUri("/ws/car");
-    wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+    wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
     wsdl11Definition.setSchema(premiumSchema);
     return wsdl11Definition;
 
@@ -155,7 +156,7 @@ definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service"
       DefaultWsdl11Definition wsdlDefinition = new DefaultWsdl11Definition();
       wsdlDefinition.setPortTypeName("CalculatorPort");
       wsdlDefinition.setLocationUri("/ws/calculator");
-      wsdlDefinition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+      wsdlDefinition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       wsdlDefinition.setSchema(calculatorSchema);
       return wsdlDefinition;
   }

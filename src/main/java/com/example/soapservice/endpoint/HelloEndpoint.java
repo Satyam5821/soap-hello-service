@@ -31,8 +31,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StringUtils;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -40,12 +40,19 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 
-import com.example.soapservice.Services.PremiumCalculatorService;
+import com.example.soapservice.services.PremiumCalculatorService;
 
 @Endpoint
 public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+  private static final String ERROR_READING_FILE_PREFIX = "Error reading file: ";
+
+  private final PremiumCalculatorService premiumCalculatorService;
+
+  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+    this.premiumCalculatorService = premiumCalculatorService;
+  }
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
@@ -148,8 +155,7 @@ public class HelloEndpoint {
         return "Other";
     }
     
-    @Autowired
-    private PremiumCalculatorService premiumCalculatorService;
+    // premiumCalculatorService is constructor-injected
  
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "PremiumCalculatorRequest")
@@ -207,7 +213,7 @@ public class HelloEndpoint {
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
         }
         return response;
     }
@@ -226,7 +232,7 @@ public class HelloEndpoint {
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
         }
         return response;
     }
@@ -250,7 +256,7 @@ public class HelloEndpoint {
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
         }
         return response;
     }
@@ -269,19 +275,19 @@ public class HelloEndpoint {
             if (records == null || records.length == 0) {
                 return null; 
             }      
-            for (String record : records) {
-                String[] fields = record.split(","); 
+            for (String employeeRecord : records) {
+                if (!StringUtils.hasText(employeeRecord)) {
+                    continue;
+                }
+                String[] fields = employeeRecord.split(","); 
                 if (fields.length == 3 && Integer.parseInt(fields[0]) == employeeId) {  
                     return formatEmployeeData(fields); 
                 }
             }
  
-        } catch (IOException e) {
+        } catch (IOException | NumberFormatException e) {
             e.printStackTrace();
-            return null;  
-        } catch (NumberFormatException e) {
-            e.printStackTrace();
-            return null;  
+            return null;
         }
  
         return null;  
@@ -289,7 +295,7 @@ public class HelloEndpoint {
  
     
     private String formatEmployeeData(String[] fields) {
-        return String.format("ID: %s\nName: %s\nEmail: %s", fields[0], fields[1], fields[2]);
+        return String.format("ID: %s%nName: %s%nEmail: %s", fields[0], fields[1], fields[2]);
     }
   
 

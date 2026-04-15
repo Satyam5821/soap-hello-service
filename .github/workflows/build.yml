@@ -35,11 +35,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
-              -Dsonar.projectKey=Satyam5821_Shift-Left-Compliance-Agents \
-              -Dsonar.pullrequest.key=${{ github.event.pull_request.number }} \
-              -Dsonar.pullrequest.branch=${{ github.head_ref }} \
-              -Dsonar.pullrequest.base=${{ github.base_ref }}
+            # Free plan: skip PR analysis; still run build/tests
+            mvn -B verify
           else
             mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
               -Dsonar.projectKey=Satyam5821_Shift-Left-Compliance-Agents
