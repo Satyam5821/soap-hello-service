@@ -58,6 +58,13 @@ public class PremiumCalculatorService {
 	            continue;
 	          }	        
 	          try {
+private void processNestedBlock() {
+    try {
+        // nested try block code
+    } catch (Exception e) {
+        // nested catch block code
+    }
+}
 	            PremiumData data = new PremiumData(
 	              Integer.parseInt(premiumRecord[0].trim()), // ageMin
 	              Integer.parseInt(premiumRecord[1].trim()), // ageMax
