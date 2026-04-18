@@ -76,20 +76,6 @@ public class PremiumCalculatorService {
           if (data != null) {
             premiumDataList.add(data);
           }
-          try {
-	            PremiumData data = new PremiumData(
-	              Integer.parseInt(premiumRecord[0].trim()), // ageMin
-	              Integer.parseInt(premiumRecord[1].trim()), // ageMax
-	              premiumRecord[2].trim().toUpperCase(), // vehicleType
-	              premiumRecord[3].trim().toUpperCase(), // location
-	              Double.parseDouble(premiumRecord[4].trim()), // basePremium
-	              Double.parseDouble(premiumRecord[5].trim()) // riskFactor
-	            );
-
-	            premiumDataList.add(data);
-	          } catch (NumberFormatException e) {
-	            logger.warn("Skipping invalid row {}: {}", i, e.getMessage());
-	          }
 	        }
 	        logger.info("Loaded {} premium records from CSV", premiumDataList.size());	         
 	      }
