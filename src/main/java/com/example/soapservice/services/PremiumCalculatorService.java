@@ -32,6 +32,21 @@ public class PremiumCalculatorService {
 	    loadPremiumData();
 
 	  }
+  private PremiumData parsePremiumRecord(String[] premiumRecord, int rowIndex) {
+    try {
+      return new PremiumData(
+        Integer.parseInt(premiumRecord[0].trim()), // ageMin
+        Integer.parseInt(premiumRecord[1].trim()), // ageMax
+        premiumRecord[2].trim().toUpperCase(), // vehicleType
+        premiumRecord[3].trim().toUpperCase(), // location
+        Double.parseDouble(premiumRecord[4].trim()), // basePremium
+        Double.parseDouble(premiumRecord[5].trim()) // riskFactor
+      );
+    } catch (NumberFormatException e) {
+      logger.warn("Skipping invalid row {}: {}", rowIndex, e.getMessage());
+      return null;
+    }
+  }
 	  private void loadPremiumData() {
 	    try {
 	      ClassPathResource resource = new ClassPathResource("carlist.csv");       
