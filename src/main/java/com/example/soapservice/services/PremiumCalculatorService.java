@@ -32,6 +32,21 @@ public class PremiumCalculatorService {
 	    loadPremiumData();
 
 	  }
+  private PremiumData parsePremiumRecord(String[] premiumRecord, int rowIndex) {
+    try {
+      return new PremiumData(
+        Integer.parseInt(premiumRecord[0].trim()), // ageMin
+        Integer.parseInt(premiumRecord[1].trim()), // ageMax
+        premiumRecord[2].trim().toUpperCase(), // vehicleType
+        premiumRecord[3].trim().toUpperCase(), // location
+        Double.parseDouble(premiumRecord[4].trim()), // basePremium
+        Double.parseDouble(premiumRecord[5].trim()) // riskFactor
+      );
+    } catch (NumberFormatException e) {
+      logger.warn("Skipping invalid row {}: {}", rowIndex, e.getMessage());
+      return null;
+    }
+  }
 	  private void loadPremiumData() {
 	    try {
 	      ClassPathResource resource = new ClassPathResource("carlist.csv");       
@@ -57,20 +72,10 @@ public class PremiumCalculatorService {
 	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
 	          }	        
-	          try {
-	            PremiumData data = new PremiumData(
-	              Integer.parseInt(premiumRecord[0].trim()), // ageMin
-	              Integer.parseInt(premiumRecord[1].trim()), // ageMax
-	              premiumRecord[2].trim().toUpperCase(), // vehicleType
-	              premiumRecord[3].trim().toUpperCase(), // location
-	              Double.parseDouble(premiumRecord[4].trim()), // basePremium
-	              Double.parseDouble(premiumRecord[5].trim()) // riskFactor
-	            );
-
-	            premiumDataList.add(data);
-	          } catch (NumberFormatException e) {
-	            logger.warn("Skipping invalid row {}: {}", i, e.getMessage());
-	          }
+	          PremiumData data = parsePremiumRecord(premiumRecord, i);
+          if (data != null) {
+            premiumDataList.add(data);
+          }
 	        }
 	        logger.info("Loaded {} premium records from CSV", premiumDataList.size());	         
 	      }
