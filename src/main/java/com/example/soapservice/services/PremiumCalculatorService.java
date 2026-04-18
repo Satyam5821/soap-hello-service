@@ -57,7 +57,11 @@ public class PremiumCalculatorService {
 	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
 	          }	        
-	          try {
+	          PremiumData data = parsePremiumRecord(premiumRecord, i);
+          if (data != null) {
+            premiumDataList.add(data);
+          }
+          try {
 	            PremiumData data = new PremiumData(
 	              Integer.parseInt(premiumRecord[0].trim()), // ageMin
 	              Integer.parseInt(premiumRecord[1].trim()), // ageMax
