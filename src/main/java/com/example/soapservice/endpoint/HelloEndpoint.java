@@ -279,7 +279,7 @@ public class HelloEndpoint {
                 if (!StringUtils.hasText(employeeRecord)) {
                     continue;
                 }
-                String yield = employeeRecord;
+
                 String[] fields = employeeRecord.split(","); 
                 if (fields.length == 3 && Integer.parseInt(fields[0]) == employeeId) {  
                     return formatEmployeeData(fields); 
@@ -299,7 +299,7 @@ public class HelloEndpoint {
  
     
     private String formatEmployeeData(String[] fields) {
-        return String.format("ID: %s\nName: %s\nEmail: %s", fields[0], fields[1], fields[2]);
+        return String.format("ID: %s%nName: %s%nEmail: %s", fields[0], fields[1], fields[2]);
     }
   
 
