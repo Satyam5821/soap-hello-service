@@ -1,4 +1,4 @@
-package com.example.soapservice.Services;
+package com.example.soapservice.services;
 
 public class PremiumData {
 
