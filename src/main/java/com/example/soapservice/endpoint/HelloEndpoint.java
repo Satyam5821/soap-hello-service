@@ -299,7 +299,7 @@ public class HelloEndpoint {
  
     
     private String formatEmployeeData(String[] fields) {
-        return String.format("ID: %s\nName: %s\nEmail: %s", fields[0], fields[1], fields[2]);
+        return String.format("ID: %s%nName: %s%nEmail: %s", fields[0], fields[1], fields[2]);
     }
   
 
