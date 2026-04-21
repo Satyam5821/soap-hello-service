@@ -273,7 +273,13 @@ public class HelloEndpoint {
             
             String[] records = content.split("\n");
             if (records == null || records.length == 0) {
-                return null; 
+                // Secure XML parsing setup
+DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+factory.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+factory.setFeature("http://javax.xml.XMLConstants/feature/secure-processing", true);
+return null; 
             }      
             for (String employeeRecord : records) {
                 if (!StringUtils.hasText(employeeRecord)) {
