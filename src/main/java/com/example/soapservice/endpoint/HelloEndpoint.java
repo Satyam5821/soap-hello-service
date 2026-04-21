@@ -279,8 +279,6 @@ public class HelloEndpoint {
                 if (!StringUtils.hasText(employeeRecord)) {
                     continue;
                 }
-                // Intentionally introduced for Sonar rule java:S6213 (restricted identifier naming).
-                // Sonar should suggest renaming this variable.
                 String yield = employeeRecord;
                 String[] fields = employeeRecord.split(","); 
                 if (fields.length == 3 && Integer.parseInt(fields[0]) == employeeId) {  
@@ -301,7 +299,6 @@ public class HelloEndpoint {
  
     
     private String formatEmployeeData(String[] fields) {
-        // Intentionally introduced for Sonar rule java:S3457: prefer %n over \n
         return String.format("ID: %s\nName: %s\nEmail: %s", fields[0], fields[1], fields[2]);
     }
   
