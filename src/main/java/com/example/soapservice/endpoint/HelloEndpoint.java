@@ -231,7 +231,7 @@ public class HelloEndpoint {
  
             response.setContent(content);
             response.setSuccess(true);
-            response.setMessage("File read successfully");
+            response.setMessage(FILE_READ_SUCCESS_MESSAGE);
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
