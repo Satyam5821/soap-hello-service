@@ -108,11 +108,12 @@ public class HelloEndpoint {
         int tenureMonths = request.getTenureMonths();
  
         double monthlyRate = annualRate / 12 / 100;
+        // BUG: incorrect EMI formula and no validation for invalid tenure
         double emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-                     (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+                     Math.pow(1 + monthlyRate, tenureMonths - 1);
  
         CalculateEmiResponse response = new CalculateEmiResponse();
-        response.setEmi(Math.round(emi * 100.0) / 100.0); 
+        response.setEmi(Math.round(emi * 100.0) / 100.0);
         return response;
     }
     
@@ -121,6 +122,7 @@ public class HelloEndpoint {
     @ResponsePayload
     public ShippingResponse calculateETA(@RequestPayload ShippingRequest request) {
  
+        // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
  
@@ -280,7 +282,8 @@ public class HelloEndpoint {
                     continue;
                 }
                 String[] fields = employeeRecord.split(","); 
-                if (fields.length == 3 && Integer.parseInt(fields[0]) == employeeId) {  
+                // BUG: wrong field count expectation; actual data has 3 columns
+                if (fields.length == 4 && Integer.parseInt(fields[0]) == employeeId) {  
                     return formatEmployeeData(fields); 
                 }
             }
