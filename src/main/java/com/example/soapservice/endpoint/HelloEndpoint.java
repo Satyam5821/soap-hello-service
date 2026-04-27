@@ -29,6 +29,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
+import java.util.function.BiConsumer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +50,44 @@ import com.example.soapservice.services.PremiumCalculatorService;
 public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+    private static final String FILE_READ_SUCCESS_MESSAGE = "File read successfully";
+    private static final String ERROR_READING_FILE_MESSAGE = "Error reading file: ";
   
-  @Autowired
-  private PremiumCalculatorService premiumCalculatorService;
+  private final PremiumCalculatorService premiumCalculatorService;
+
+  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+    this.premiumCalculatorService = premiumCalculatorService;
+  }
+
+    private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
+        setResult.accept(op.applyAsInt(a, b));
+        return response;
+    }
+
+    private <R> R buildFileReadResponse(
+            R response,
+            String fileName,
+            BiConsumer<R, String> setContent,
+            BiConsumer<R, Boolean> setSuccess,
+            BiConsumer<R, String> setMessage
+    ) {
+        try {
+            String content = readClasspathFile(fileName);
+            setContent.accept(response, content);
+            setSuccess.accept(response, true);
+            setMessage.accept(response, FILE_READ_SUCCESS_MESSAGE);
+        } catch (IOException e) {
+            setContent.accept(response, "");
+            setSuccess.accept(response, false);
+            setMessage.accept(response, ERROR_READING_FILE_MESSAGE + e.getMessage());
+        }
+        return response;
+    }
+
+    private String readClasspathFile(String fileName) throws IOException {
+        ClassPathResource resource = new ClassPathResource(fileName);
+        return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+    }
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
@@ -65,36 +103,31 @@ public class HelloEndpoint {
     @ResponsePayload
     public AddResponse add(@RequestPayload AddRequest request) {
         AddResponse response = new AddResponse();
-        response.setResult(request.getA() + request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a + b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "SubtractRequest")
     @ResponsePayload
     public SubtractResponse subtract(@RequestPayload SubtractRequest request) {
         SubtractResponse response = new SubtractResponse();
-        response.setResult(request.getA() - request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a - b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "MultiplyRequest")
     @ResponsePayload
     public MultiplyResponse multiply(@RequestPayload MultiplyRequest request) {
         MultiplyResponse response = new MultiplyResponse();
-        response.setResult(request.getA() * request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a * b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "DivideRequest")
     @ResponsePayload
     public DivideResponse divide(@RequestPayload DivideRequest request) {
         DivideResponse response = new DivideResponse();
-        if (request.getB() != 0) {
-            response.setResult(request.getA() / request.getB());
-        } else {
+        if (request.getB() == 0) {
             throw new IllegalArgumentException("Division by zero is not allowed");
         }
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a / b, response::setResult);
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CalculateEmiRequest")
@@ -122,7 +155,7 @@ public class HelloEndpoint {
         // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
-        int unusedVariable = 123;  // Unused variable for testing
+
  
         int daysToAdd;
  
@@ -203,38 +236,26 @@ public class HelloEndpoint {
     @ResponsePayload
     public TextFileResponse getTextFileContent(@RequestPayload TextFileRequest request) {
         TextFileResponse response = new TextFileResponse();
-        try {
-            ClassPathResource resource = new ClassPathResource(request.getFileName());
-            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
- 
-            response.setContent(content);
-            response.setSuccess(true);
-            response.setMessage("File read successfully");
-        } catch (IOException e) {
-            response.setContent("");
-            response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
-        }
-        return response;
+        return buildFileReadResponse(
+                response,
+                request.getFileName(),
+                TextFileResponse::setContent,
+                TextFileResponse::setSuccess,
+                TextFileResponse::setMessage
+        );
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileRequest")
     @ResponsePayload
     public UserFileResponse getuserFileContent(@RequestPayload UserFileRequest request) {
     	UserFileResponse response = new UserFileResponse();
-        try {
-            ClassPathResource resource = new ClassPathResource(request.getFileName());
-            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
- 
-            response.setContent(content);
-            response.setSuccess(true);
-            response.setMessage("File read successfully");
-        } catch (IOException e) {
-            response.setContent("");
-            response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
-        }
-        return response;
+        return buildFileReadResponse(
+                response,
+                request.getFileName(),
+                UserFileResponse::setContent,
+                UserFileResponse::setSuccess,
+                UserFileResponse::setMessage
+        );
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
