@@ -29,6 +29,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.function.IntBinaryOperator;
+import java.util.function.IntConsumer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +58,11 @@ public class HelloEndpoint {
     this.premiumCalculatorService = premiumCalculatorService;
   }
 
+    private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
+        setResult.accept(op.applyAsInt(a, b));
+        return response;
+    }
+
     private String readClasspathFile(String fileName) throws IOException {
         ClassPathResource resource = new ClassPathResource(fileName);
         return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
@@ -75,36 +82,31 @@ public class HelloEndpoint {
     @ResponsePayload
     public AddResponse add(@RequestPayload AddRequest request) {
         AddResponse response = new AddResponse();
-        response.setResult(request.getA() + request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a + b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "SubtractRequest")
     @ResponsePayload
     public SubtractResponse subtract(@RequestPayload SubtractRequest request) {
         SubtractResponse response = new SubtractResponse();
-        response.setResult(request.getA() - request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a - b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "MultiplyRequest")
     @ResponsePayload
     public MultiplyResponse multiply(@RequestPayload MultiplyRequest request) {
         MultiplyResponse response = new MultiplyResponse();
-        response.setResult(request.getA() * request.getB());
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a * b, response::setResult);
     }
  
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "DivideRequest")
     @ResponsePayload
     public DivideResponse divide(@RequestPayload DivideRequest request) {
         DivideResponse response = new DivideResponse();
-        if (request.getB() != 0) {
-            response.setResult(request.getA() / request.getB());
-        } else {
+        if (request.getB() == 0) {
             throw new IllegalArgumentException("Division by zero is not allowed");
         }
-        return response;
+        return buildIntResultResponse(response, request.getA(), request.getB(), (a, b) -> a / b, response::setResult);
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "CalculateEmiRequest")
