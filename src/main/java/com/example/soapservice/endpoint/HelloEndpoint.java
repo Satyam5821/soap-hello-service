@@ -124,7 +124,6 @@ public class HelloEndpoint {
         // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
-        int unusedVariable = 123;  // Unused variable for testing
  
         int daysToAdd;
  
