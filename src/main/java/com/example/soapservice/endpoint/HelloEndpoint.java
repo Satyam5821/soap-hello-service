@@ -218,7 +218,7 @@ public class HelloEndpoint {
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE + e.getMessage());
         }
         return response;
     }
