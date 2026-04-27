@@ -28,6 +28,8 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
   private static final String DEFAULT_TARGET_NAMESPACE = "http://spring.io/guides/gs-producing-web-service";
+  private static final String HELLO_SERVICE_NAMESPACE = DEFAULT_TARGET_NAMESPACE;
+  private static final String USER_LIST_SERVICE_NAMESPACE = DEFAULT_TARGET_NAMESPACE;
   @Bean
   public ServletRegistrationBean<MessageDispatcherServlet> helloDispatcherServlet(ApplicationContext applicationContext) {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
@@ -43,7 +45,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("HelloPort");
     wsdl11Definition.setLocationUri("/ws/hello");
-    wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+    wsdl11Definition.setTargetNamespace(HELLO_SERVICE_NAMESPACE);
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
 
@@ -62,7 +64,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
       DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
       definition.setPortTypeName("UserListPort");
       definition.setLocationUri("/ws/userlist");
-      definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+      definition.setTargetNamespace(USER_LIST_SERVICE_NAMESPACE);
       definition.setSchema(schema);
       return definition;
   }
