@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.function.IntBinaryOperator;
 import java.util.function.IntConsumer;
+import java.util.function.BiConsumer;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,26 @@ public class HelloEndpoint {
 
     private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
         setResult.accept(op.applyAsInt(a, b));
+        return response;
+    }
+
+    private <R> R buildFileReadResponse(
+            R response,
+            String fileName,
+            BiConsumer<R, String> setContent,
+            BiConsumer<R, Boolean> setSuccess,
+            BiConsumer<R, String> setMessage
+    ) {
+        try {
+            String content = readClasspathFile(fileName);
+            setContent.accept(response, content);
+            setSuccess.accept(response, true);
+            setMessage.accept(response, FILE_READ_SUCCESS_MESSAGE);
+        } catch (IOException e) {
+            setContent.accept(response, "");
+            setSuccess.accept(response, false);
+            setMessage.accept(response, ERROR_READING_FILE_MESSAGE + e.getMessage());
+        }
         return response;
     }
 
@@ -215,36 +236,26 @@ public class HelloEndpoint {
     @ResponsePayload
     public TextFileResponse getTextFileContent(@RequestPayload TextFileRequest request) {
         TextFileResponse response = new TextFileResponse();
-        try {
-            String content = readClasspathFile(request.getFileName());
- 
-            response.setContent(content);
-            response.setSuccess(true);
-            response.setMessage(FILE_READ_SUCCESS_MESSAGE);
-        } catch (IOException e) {
-            response.setContent("");
-            response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_MESSAGE + e.getMessage());
-        }
-        return response;
+        return buildFileReadResponse(
+                response,
+                request.getFileName(),
+                TextFileResponse::setContent,
+                TextFileResponse::setSuccess,
+                TextFileResponse::setMessage
+        );
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileRequest")
     @ResponsePayload
     public UserFileResponse getuserFileContent(@RequestPayload UserFileRequest request) {
     	UserFileResponse response = new UserFileResponse();
-        try {
-            String content = readClasspathFile(request.getFileName());
- 
-            response.setContent(content);
-            response.setSuccess(true);
-            response.setMessage(FILE_READ_SUCCESS_MESSAGE);
-        } catch (IOException e) {
-            response.setContent("");
-            response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_MESSAGE + e.getMessage());
-        }
-        return response;
+        return buildFileReadResponse(
+                response,
+                request.getFileName(),
+                UserFileResponse::setContent,
+                UserFileResponse::setSuccess,
+                UserFileResponse::setMessage
+        );
     }
     
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
