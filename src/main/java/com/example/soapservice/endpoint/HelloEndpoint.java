@@ -48,8 +48,11 @@ public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
   
-  @Autowired
-  private PremiumCalculatorService premiumCalculatorService;
+  private final PremiumCalculatorService premiumCalculatorService;
+
+  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+    this.premiumCalculatorService = premiumCalculatorService;
+  }
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
@@ -122,7 +125,7 @@ public class HelloEndpoint {
         // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
-        int unusedVariable = 123;  // Unused variable for testing
+
  
         int daysToAdd;
  
@@ -189,6 +192,8 @@ public class HelloEndpoint {
         response.setPremium(premium);
         response.setMessage("Premium calculated successfully");
 
+    private static final String ERROR_READING_FILE = "Error reading file: ";
+    private static final String FILE_READ_SUCCESS = "File read successfully";
       } catch (Exception e) {
         response.setSuccess(false);
         response.setMessage("Error calculating premium: " + e.getMessage());
@@ -209,11 +214,11 @@ public class HelloEndpoint {
  
             response.setContent(content);
             response.setSuccess(true);
-            response.setMessage("File read successfully");
+            response.setMessage(FILE_READ_SUCCESS);
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE + e.getMessage());
         }
         return response;
     }
@@ -228,11 +233,11 @@ public class HelloEndpoint {
  
             response.setContent(content);
             response.setSuccess(true);
-            response.setMessage("File read successfully");
+            response.setMessage(FILE_READ_SUCCESS);
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE + e.getMessage());
         }
         return response;
     }
