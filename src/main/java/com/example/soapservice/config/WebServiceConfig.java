@@ -28,6 +28,8 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfig extends WsConfigurerAdapter {
   private static final String DEFAULT_TARGET_NAMESPACE = "http://spring.io/guides/gs-producing-web-service";
+  private static final String HELLO_SERVICE_NAMESPACE = DEFAULT_TARGET_NAMESPACE;
+  private static final String USER_LIST_SERVICE_NAMESPACE = DEFAULT_TARGET_NAMESPACE;
   @Bean
   public ServletRegistrationBean<MessageDispatcherServlet> helloDispatcherServlet(ApplicationContext applicationContext) {
     MessageDispatcherServlet servlet = new MessageDispatcherServlet();
