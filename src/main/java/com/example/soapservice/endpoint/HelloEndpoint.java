@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;  // Unused import for testing
 
 
 import org.springframework.core.io.ClassPathResource;
@@ -47,6 +48,7 @@ public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
   private static final String ERROR_READING_FILE_PREFIX = "Error reading file: ";
+  private static final int UNUSED_CONSTANT = 42;  // Unused constant for testing
 
   private final PremiumCalculatorService premiumCalculatorService;
 
@@ -125,6 +127,7 @@ public class HelloEndpoint {
         // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
+        int unusedVariable = 123;  // Unused variable for testing
  
         int daysToAdd;
  
