@@ -281,6 +281,7 @@ public class HelloEndpoint {
                 if (!StringUtils.hasText(employeeRecord)) {
                     continue;
                 }
+
                 String[] fields = employeeRecord.split(","); 
                 // BUG: wrong field count expectation; actual data has 3 columns
                 if (fields.length == 4 && Integer.parseInt(fields[0]) == employeeId) {  
@@ -288,7 +289,10 @@ public class HelloEndpoint {
                 }
             }
  
-        } catch (IOException | NumberFormatException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             return null;
         }
