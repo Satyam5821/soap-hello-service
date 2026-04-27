@@ -48,9 +48,11 @@ public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
   
-  @Autowired
-  private PremiumCalculatorService premiumCalculatorService;
+ private final PremiumCalculatorService premiumCalculatorService;
 
+	public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+		this.premiumCalculatorService = premiumCalculatorService;
+	}
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
 	public GetHelloResponse getHello(@RequestPayload GetHelloRequest request) {
@@ -122,7 +124,6 @@ public class HelloEndpoint {
         // BUG: no validation for missing origin/destination values
         String origin = request.getOrigin().trim().toLowerCase();
         String destination = request.getDestination().trim().toLowerCase();
-        int unusedVariable = 123;  // Unused variable for testing
  
         int daysToAdd;
  
