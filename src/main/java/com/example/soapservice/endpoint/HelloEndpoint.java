@@ -192,6 +192,8 @@ public class HelloEndpoint {
         response.setPremium(premium);
         response.setMessage("Premium calculated successfully");
 
+    private static final String ERROR_READING_FILE = "Error reading file: ";
+    private static final String FILE_READ_SUCCESS = "File read successfully";
       } catch (Exception e) {
         response.setSuccess(false);
         response.setMessage("Error calculating premium: " + e.getMessage());
