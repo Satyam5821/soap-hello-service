@@ -43,7 +43,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("HelloPort");
     wsdl11Definition.setLocationUri("/ws/hello");
-    wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+    wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
     wsdl11Definition.setSchema(helloSchema);
     return wsdl11Definition;
 
