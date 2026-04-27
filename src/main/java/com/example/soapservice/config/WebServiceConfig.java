@@ -92,7 +92,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
       DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
       wsdl11Definition.setPortTypeName("TextFilePort");
       wsdl11Definition.setLocationUri("/ws/readtxt");
-  wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+  wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       wsdl11Definition.setSchema(textFileSchema);
       return wsdl11Definition;
   }
