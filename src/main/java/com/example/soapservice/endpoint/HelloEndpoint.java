@@ -47,6 +47,8 @@ import com.example.soapservice.services.PremiumCalculatorService;
 public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
+    private static final String FILE_READ_SUCCESS_MESSAGE = "File read successfully";
+    private static final String ERROR_READING_FILE_MESSAGE = "Error reading file: ";
   
   private final PremiumCalculatorService premiumCalculatorService;
 
