@@ -29,9 +29,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;  // Unused import for testing
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -47,14 +47,9 @@ import com.example.soapservice.services.PremiumCalculatorService;
 public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
-  private static final String ERROR_READING_FILE_PREFIX = "Error reading file: ";
-  private static final int UNUSED_CONSTANT = 42;  // Unused constant for testing
-
-  private final PremiumCalculatorService premiumCalculatorService;
-
-  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
-    this.premiumCalculatorService = premiumCalculatorService;
-  }
+  
+  @Autowired
+  private PremiumCalculatorService premiumCalculatorService;
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
@@ -218,7 +213,7 @@ public class HelloEndpoint {
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
+            response.setMessage("Error reading file: " + e.getMessage());
         }
         return response;
     }
@@ -237,7 +232,7 @@ public class HelloEndpoint {
         } catch (IOException e) {
             response.setContent("");
             response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
+            response.setMessage("Error reading file: " + e.getMessage());
         }
         return response;
     }
@@ -261,7 +256,7 @@ public class HelloEndpoint {
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_PREFIX + e.getMessage());
+            response.setMessage("Error reading file: " + e.getMessage());
         }
         return response;
     }

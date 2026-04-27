@@ -1,3 +1,26 @@
+package com.example.soapservice.Services;
+
+public class PremiumData {
+  private int ageMin;
+  private int ageMax;
+
+  public int getAgeMin() {
+    return ageMin;
+  }
+
+  public void setAgeMin(int ageMin) {
+    this.ageMin = ageMin;
+  }
+
+  public int getAgeMax() {
+    return ageMax;
+  }
+
+  public void setAgeMax(int ageMax) {
+    this.ageMax = ageMax;
+  }
+}
+
 package com.example.soapservice.services;
 
 public class PremiumData {
