@@ -56,6 +56,11 @@ public class HelloEndpoint {
     this.premiumCalculatorService = premiumCalculatorService;
   }
 
+    private String readClasspathFile(String fileName) throws IOException {
+        ClassPathResource resource = new ClassPathResource(fileName);
+        return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+    }
+
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
 	@ResponsePayload
 	public GetHelloResponse getHello(@RequestPayload GetHelloRequest request) {
@@ -209,8 +214,7 @@ public class HelloEndpoint {
     public TextFileResponse getTextFileContent(@RequestPayload TextFileRequest request) {
         TextFileResponse response = new TextFileResponse();
         try {
-            ClassPathResource resource = new ClassPathResource(request.getFileName());
-            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+            String content = readClasspathFile(request.getFileName());
  
             response.setContent(content);
             response.setSuccess(true);
@@ -228,8 +232,7 @@ public class HelloEndpoint {
     public UserFileResponse getuserFileContent(@RequestPayload UserFileRequest request) {
     	UserFileResponse response = new UserFileResponse();
         try {
-            ClassPathResource resource = new ClassPathResource(request.getFileName());
-            String content = Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+            String content = readClasspathFile(request.getFileName());
  
             response.setContent(content);
             response.setSuccess(true);
