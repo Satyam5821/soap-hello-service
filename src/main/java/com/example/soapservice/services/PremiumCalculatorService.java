@@ -108,7 +108,10 @@ public class PremiumCalculatorService {
 
 	  }   
 
-	  public double calculatePremium(int customerAge, String vehicleType, String location) {
+	  private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
+
+  public double calculatePremium(int customerAge, String vehicleType, String location) {
+  public double calculatePremium(int customerAge, String vehicleType, String location) {
 	    double defaultPremium = 1000.0;  // Unused variable for testing
 	    if (!StringUtils.hasText(vehicleType) || !StringUtils.hasText(location)) {
 	      return 1000.0;
