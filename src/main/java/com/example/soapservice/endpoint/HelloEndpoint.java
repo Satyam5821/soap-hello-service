@@ -273,7 +273,7 @@ public class HelloEndpoint {
             } else {
                 response.setContent(employeeData);
                 response.setSuccess(true);
-                response.setMessage("Employee data fetched successfully");
+                response.setMessage(EMPLOYEE_DATA_FETCHED_SUCCESSFULLY);
             }
         } catch (Exception e) {
             response.setSuccess(false);
