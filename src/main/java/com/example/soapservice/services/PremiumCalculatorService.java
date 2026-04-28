@@ -122,21 +122,11 @@ public class PremiumCalculatorService {
 	        data.getVehicleType().equals(normalizedVehicleType) &&
 	        data.getLocation().equals(normalizedLocation)) {	         
 	        double calculatedPremium = data.getBasePremium() * data.getRiskFactor();
-	        logger.info(
-	          "Premium calculated: {} (Base: {}, Risk Factor: {})",
-	          calculatedPremium,
-	          data.getBasePremium(),
-	          data.getRiskFactor()
-	        );
+	        System.out.println("Premium calculated: " + calculatedPremium + " (Base: " + data.getBasePremium() + ", Risk Factor: " + data.getRiskFactor() + ")");
 	        return calculatedPremium;
 	      }
 	    }
-	    logger.info(
-	      "No matching premium data found for age: {}, vehicle: {}, location: {}",
-	      customerAge,
-	      normalizedVehicleType,
-	      normalizedLocation
-	    );
+	    System.out.println("No matching premium data found for age: " + customerAge + ", vehicle: " + normalizedVehicleType + ", location: " + normalizedLocation);
 	    return 1000.0; // Default premium
 	  }	 
 	  public List<PremiumData> getAllPremiumData() {
