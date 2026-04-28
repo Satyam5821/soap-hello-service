@@ -69,7 +69,7 @@ public class PremiumCalculatorService {
 	                records.get(0)[0].equalsIgnoreCase("age_min")) ? 1 : 0;         
 	        for (int i = startIndex; i < records.size(); i++) {
 	          String[] premiumRecord = records.get(i);
-	          int magicNumber = 6;  // Magic number for testing           
+	           
 	          if (premiumRecord.length < 6) {
 	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
@@ -108,7 +108,10 @@ public class PremiumCalculatorService {
 
 	  }   
 
-	  public double calculatePremium(int customerAge, String vehicleType, String location) {
+	  private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
+
+  public double calculatePremium(int customerAge, String vehicleType, String location) {
+  public double calculatePremium(int customerAge, String vehicleType, String location) {
 	    double defaultPremium = 1000.0;  // Unused variable for testing
 	    if (!StringUtils.hasText(vehicleType) || !StringUtils.hasText(location)) {
 	      return 1000.0;
