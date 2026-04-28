@@ -1,3 +1,6 @@
+private static final String MSG_EMPLOYEE_NOT_FOUND = "Employee not found for ID: ";
+private static final String MSG_EMPLOYEE_FETCH_SUCCESS = "Employee data fetched successfully";
+private static final String MSG_ERROR_READING_FILE = "Error reading file: ";
 package com.example.soapservice.endpoint;
 
 import io.spring.guides.gs_producing_web_service.AddRequest;
