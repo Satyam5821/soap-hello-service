@@ -258,6 +258,9 @@ public class HelloEndpoint {
         );
     }
     
+    private static final String EMPLOYEE_NOT_FOUND_MESSAGE = "Employee not found for ID: ";
+    private static final String EMPLOYEE_DATA_FETCHED_SUCCESSFULLY = "Employee data fetched successfully";
+    private static final String ERROR_READING_FILE_MESSAGE = "Error reading file: ";
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
     @ResponsePayload
     public UserFileidResponse getFileidResponse(@RequestPayload UserFileidRequest request) {
