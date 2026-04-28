@@ -269,7 +269,7 @@ public class HelloEndpoint {
  
             if (employeeData == null || employeeData.isEmpty()) {
                 response.setSuccess(false);
-                response.setMessage("Employee not found for ID: " + request.getEmployeeId());
+                response.setMessage(EMPLOYEE_NOT_FOUND_MESSAGE + request.getEmployeeId());
             } else {
                 response.setContent(employeeData);
                 response.setSuccess(true);
