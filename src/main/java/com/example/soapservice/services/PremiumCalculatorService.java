@@ -122,7 +122,7 @@ public class PremiumCalculatorService {
 	        data.getVehicleType().equals(normalizedVehicleType) &&
 	        data.getLocation().equals(normalizedLocation)) {	         
 	        double calculatedPremium = data.getBasePremium() * data.getRiskFactor();
-	        System.out.println("Premium calculated: " + calculatedPremium + " (Base: " + data.getBasePremium() + ", Risk Factor: " + data.getRiskFactor() + ")");
+	        logger.info("Premium calculated: {} (Base: {}, Risk Factor: {})", calculatedPremium, data.getBasePremium(), data.getRiskFactor());
 	        return calculatedPremium;
 	      }
 	    }
