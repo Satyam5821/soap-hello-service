@@ -8,6 +8,7 @@ class SoapHelloServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
+		// Empty by design - verifies Spring context loads successfully
 	}
 
 }
