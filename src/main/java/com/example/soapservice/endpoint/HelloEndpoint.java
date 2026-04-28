@@ -277,7 +277,7 @@ public class HelloEndpoint {
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(MSG_ERROR_READING_FILE + e.getMessage());
         }
         return response;
     }
