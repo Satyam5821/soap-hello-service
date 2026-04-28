@@ -140,7 +140,7 @@ public class HelloEndpoint {
         double monthlyRate = annualRate / 12 / 100;
         // BUG: incorrect EMI formula and no validation for invalid tenure
         double emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-                     Math.pow(1 + monthlyRate, tenureMonths - 1);
+                     Math.pow(1 + monthlyRate, (double)tenureMonths - 1);
  
         CalculateEmiResponse response = new CalculateEmiResponse();
         response.setEmi(Math.round(emi * 100.0) / 100.0);
@@ -258,6 +258,9 @@ public class HelloEndpoint {
         );
     }
     
+    private static final String EMPLOYEE_NOT_FOUND_MESSAGE = "Employee not found for ID: ";
+    private static final String EMPLOYEE_DATA_FETCHED_SUCCESSFULLY = "Employee data fetched successfully";
+    private static final String ERROR_READING_FILE_MESSAGE = "Error reading file: ";
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
     @ResponsePayload
     public UserFileidResponse getFileidResponse(@RequestPayload UserFileidRequest request) {
@@ -269,15 +272,15 @@ public class HelloEndpoint {
  
             if (employeeData == null || employeeData.isEmpty()) {
                 response.setSuccess(false);
-                response.setMessage("Employee not found for ID: " + request.getEmployeeId());
+                response.setMessage(EMPLOYEE_NOT_FOUND_MESSAGE + request.getEmployeeId());
             } else {
                 response.setContent(employeeData);
                 response.setSuccess(true);
-                response.setMessage("Employee data fetched successfully");
+                response.setMessage(EMPLOYEE_DATA_FETCHED_SUCCESSFULLY);
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(ERROR_READING_FILE_MESSAGE + e.getMessage());
         }
         return response;
     }
