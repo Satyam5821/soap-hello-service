@@ -69,7 +69,7 @@ public class PremiumCalculatorService {
 	                records.get(0)[0].equalsIgnoreCase("age_min")) ? 1 : 0;         
 	        for (int i = startIndex; i < records.size(); i++) {
 	          String[] premiumRecord = records.get(i);
-	          int magicNumber = 6;  // Magic number for testing           
+	           
 	          if (premiumRecord.length < 6) {
 	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
@@ -122,11 +122,11 @@ public class PremiumCalculatorService {
 	        data.getVehicleType().equals(normalizedVehicleType) &&
 	        data.getLocation().equals(normalizedLocation)) {	         
 	        double calculatedPremium = data.getBasePremium() * data.getRiskFactor();
-	        System.out.println("Premium calculated: " + calculatedPremium + " (Base: " + data.getBasePremium() + ", Risk Factor: " + data.getRiskFactor() + ")");
+	        logger.info("Premium calculated: {} (Base: {}, Risk Factor: {})", calculatedPremium, data.getBasePremium(), data.getRiskFactor());
 	        return calculatedPremium;
 	      }
 	    }
-	    System.out.println("No matching premium data found for age: " + customerAge + ", vehicle: " + normalizedVehicleType + ", location: " + normalizedLocation);
+	    logger.warn("No matching premium data found for age: {}, vehicle: {}, location: {}", customerAge, normalizedVehicleType, normalizedLocation);
 	    return 1000.0; // Default premium
 	  }	 
 	  public List<PremiumData> getAllPremiumData() {
