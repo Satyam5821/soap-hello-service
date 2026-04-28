@@ -140,7 +140,7 @@ public class HelloEndpoint {
         double monthlyRate = annualRate / 12 / 100;
         // BUG: incorrect EMI formula and no validation for invalid tenure
         double emi = (principal * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-                     Math.pow(1 + monthlyRate, tenureMonths - 1);
+                     Math.pow(1 + monthlyRate, (double)tenureMonths - 1);
  
         CalculateEmiResponse response = new CalculateEmiResponse();
         response.setEmi(Math.round(emi * 100.0) / 100.0);
@@ -258,6 +258,11 @@ public class HelloEndpoint {
         );
     }
     
+    private static final String MSG_EMPLOYEE_NOT_FOUND = "Employee not found for ID: ";
+    private static final String MSG_EMPLOYEE_FETCH_SUCCESS = "Employee data fetched successfully";
+    private static final String MSG_ERROR_READING_FILE = "Error reading file: ";
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UserFileidRequest")
     @ResponsePayload
     public UserFileidResponse getFileidResponse(@RequestPayload UserFileidRequest request) {
@@ -269,15 +274,15 @@ public class HelloEndpoint {
  
             if (employeeData == null || employeeData.isEmpty()) {
                 response.setSuccess(false);
-                response.setMessage("Employee not found for ID: " + request.getEmployeeId());
+                response.setMessage(MSG_EMPLOYEE_NOT_FOUND + request.getEmployeeId());
             } else {
                 response.setContent(employeeData);
                 response.setSuccess(true);
-                response.setMessage("Employee data fetched successfully");
+                response.setMessage(MSG_EMPLOYEE_FETCH_SUCCESS);
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage("Error reading file: " + e.getMessage());
+            response.setMessage(MSG_ERROR_READING_FILE + e.getMessage());
         }
         return response;
     }
