@@ -126,7 +126,7 @@ public class PremiumCalculatorService {
 	        return calculatedPremium;
 	      }
 	    }
-	    System.out.println("No matching premium data found for age: " + customerAge + ", vehicle: " + normalizedVehicleType + ", location: " + normalizedLocation);
+	    logger.warn("No matching premium data found for age: {}, vehicle: {}, location: {}", customerAge, normalizedVehicleType, normalizedLocation);
 	    return 1000.0; // Default premium
 	  }	 
 	  public List<PremiumData> getAllPremiumData() {
