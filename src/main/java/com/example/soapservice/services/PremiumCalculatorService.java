@@ -69,7 +69,7 @@ public class PremiumCalculatorService {
 	                records.get(0)[0].equalsIgnoreCase("age_min")) ? 1 : 0;         
 	        for (int i = startIndex; i < records.size(); i++) {
 	          String[] premiumRecord = records.get(i);
-	          int magicNumber = 6;  // Magic number for testing           
+	           
 	          if (premiumRecord.length < 6) {
 	            logger.warn("Skipping invalid row {}: insufficient columns", i);
 	            continue;
