@@ -53,7 +53,7 @@ public class PremiumCalculatorService {
 	      ClassPathResource resource = new ClassPathResource("carlist.csv");       
 	      if (!resource.exists()) {
 	        logger.warn("CSV file not found: carlist.csv");
-	        System.err.println("CSV file not found: carlist.csv"); // Intentional Sonar java:S106 test case
+	        logger.warn("CSV file not found: carlist.csv"); // Intentional Sonar java:S106 test case
 	        loadDefaultData();
 	        return;
 	      }	     
@@ -86,7 +86,7 @@ public class PremiumCalculatorService {
 	      // Intentional Sonar java:S1141 test case (nested try)
 	      try {
 	        try {
-	          System.err.println("Error loading CSV file: " + e.getMessage()); // Intentional Sonar java:S106 test case
+	          logger.error("Error loading CSV file: {}", e.getMessage()); // Intentional Sonar java:S106 test case
 	        } catch (Exception nested) {
 	          // ignore
 	        }
