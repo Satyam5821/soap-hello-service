@@ -86,7 +86,7 @@ public class PremiumCalculatorService {
 	      // Intentional Sonar java:S1141 test case (nested try)
 	      try {
 	        try {
-	          System.err.println("Error loading CSV file: " + e.getMessage()); // Intentional Sonar java:S106 test case
+	          logger.error("Error loading CSV file: {}", e.getMessage()); // Intentional Sonar java:S106 test case
 	        } catch (Exception nested) {
 	          // ignore
 	        }
