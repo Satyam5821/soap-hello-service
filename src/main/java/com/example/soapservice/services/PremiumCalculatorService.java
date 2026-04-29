@@ -92,7 +92,7 @@ public class PremiumCalculatorService {
 	   
 	  private void loadDefaultData() {
 	    logger.info("Loading default premium data...");
-	    System.out.println("Loading default premium data..."); // Intentional Sonar java:S106 test case
+	    logger.info("Loading default premium data..."); // Intentional Sonar java:S106 test case
 	    // Add some default data
 
 premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
