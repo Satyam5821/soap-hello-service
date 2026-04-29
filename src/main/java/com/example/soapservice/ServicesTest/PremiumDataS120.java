@@ -1,4 +1,4 @@
-package com.example.soapservice.ServicesTest;
+package com.example.soapservice.servicestest;
 
 /**
  * Intentional test fixture for Sonar rule java:S120 (package naming regex).
