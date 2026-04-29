@@ -51,13 +51,16 @@ public class HelloEndpoint {
 
 	private static final String NAMESPACE_URI = "http://spring.io/guides/gs-producing-web-service";
     private static final String FILE_READ_SUCCESS_MESSAGE = "File read successfully";
-    private static final String ERROR_READING_FILE_MESSAGE = "Error reading file: ";
   
   private final PremiumCalculatorService premiumCalculatorService;
 
   public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
     this.premiumCalculatorService = premiumCalculatorService;
   }
+
+  // Intentional test fixture for Sonar rule java:S6813 (field injection).
+  @Autowired
+  private ClassPathResource injectedResource;
 
     private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
         setResult.accept(op.applyAsInt(a, b));
@@ -79,14 +82,19 @@ public class HelloEndpoint {
         } catch (IOException e) {
             setContent.accept(response, "");
             setSuccess.accept(response, false);
-            setMessage.accept(response, ERROR_READING_FILE_MESSAGE + e.getMessage());
+            setMessage.accept(response, "Error reading file: " + e.getMessage());
         }
         return response;
     }
 
     private String readClasspathFile(String fileName) throws IOException {
         ClassPathResource resource = new ClassPathResource(fileName);
-        return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+        try {
+            return Files.readString(resource.getFile().toPath(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            // Intentional duplicated literal for Sonar rule java:S1192 test
+            throw new IOException("Error reading file: " + e.getMessage(), e);
+        }
     }
 
 	@PayloadRoot(namespace = NAMESPACE_URI, localPart = "getHelloRequest")
@@ -276,7 +284,7 @@ public class HelloEndpoint {
             }
         } catch (Exception e) {
             response.setSuccess(false);
-            response.setMessage(ERROR_READING_FILE_MESSAGE + e.getMessage());
+            response.setMessage("Error reading file: " + e.getMessage());
         }
         return response;
     }

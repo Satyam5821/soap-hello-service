@@ -1,3 +1,21 @@
+package com.example.soapservice.Services;
+
+/**
+ * Intentional test fixture for Sonar rule java:S120 (package naming).
+ * This class is not used by production code.
+ */
+public class PremiumData {
+  private int id;
+
+  public int getId() {
+    return id;
+  }
+
+  public void setId(int id) {
+    this.id = id;
+  }
+}
+
 package com.example.soapservice.services;
 
 public class PremiumData {
