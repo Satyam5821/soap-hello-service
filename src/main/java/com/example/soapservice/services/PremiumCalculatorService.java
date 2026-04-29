@@ -129,7 +129,7 @@ premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
 	      }
 	    }
 	    logger.warn("No matching premium data found for age: {}, vehicle: {}, location: {}", customerAge, normalizedVehicleType, normalizedLocation);
-	    System.out.println("No matching premium data found"); // Intentional Sonar java:S106 test case
+	    logger.info("No matching premium data found"); // Intentional Sonar java:S106 test case
 	    return 1000.0; // Default premium
 	  }	 
 	  public List<PremiumData> getAllPremiumData() {
