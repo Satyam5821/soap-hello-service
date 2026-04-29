@@ -156,7 +156,7 @@ definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       DefaultWsdl11Definition wsdlDefinition = new DefaultWsdl11Definition();
       wsdlDefinition.setPortTypeName("CalculatorPort");
       wsdlDefinition.setLocationUri("/ws/calculator");
-      wsdlDefinition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+      wsdlDefinition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       wsdlDefinition.setSchema(calculatorSchema);
       return wsdlDefinition;
   }
