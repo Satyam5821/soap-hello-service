@@ -122,7 +122,7 @@ definition.setTargetNamespace("http://spring.io/guides/shipping-service");
       DefaultWsdl11Definition definition = new DefaultWsdl11Definition();
       definition.setPortTypeName("EmiPort");
       definition.setLocationUri("/emi");
-definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
       definition.setSchema(emiSchema);
       return definition;
   }
