@@ -94,15 +94,15 @@ public class PremiumCalculatorService {
 	    logger.info("Loading default premium data...");
 	    // Add some default data
 
-	    premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
-	    premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_SUBURBAN, 1000, 1.3));
-	    premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_RURAL, 800, 1.1));
-	    premiumDataList.add(new PremiumData(26, 35, "CAR", LOCATION_URBAN, 900, 1.2));
-	    premiumDataList.add(new PremiumData(26, 35, "CAR", LOCATION_SUBURBAN, 750, 1.1));
-	    premiumDataList.add(new PremiumData(26, 35, "CAR", LOCATION_RURAL, 650, 1.0));
-	    premiumDataList.add(new PremiumData(36, 50, "CAR", LOCATION_URBAN, 800, 1.0));
-	    premiumDataList.add(new PremiumData(36, 50, "CAR", LOCATION_SUBURBAN, 700, 0.9));
-	    premiumDataList.add(new PremiumData(36, 50, "CAR", LOCATION_RURAL, 600, 0.8));
+premiumDataList.add(new PremiumData(18, 25, "CAR", "URBAN", 1200, 1.5));
+    premiumDataList.add(new PremiumData(18, 25, "CAR", "SUBURBAN", 1000, 1.3));
+    premiumDataList.add(new PremiumData(18, 25, "CAR", "RURAL", 800, 1.1));
+    premiumDataList.add(new PremiumData(26, 35, "CAR", "URBAN", 900, 1.2));
+    premiumDataList.add(new PremiumData(26, 35, "CAR", "SUBURBAN", 750, 1.1));
+    premiumDataList.add(new PremiumData(26, 35, "CAR", "RURAL", 650, 1.0));
+    premiumDataList.add(new PremiumData(36, 50, "CAR", "URBAN", 800, 1.0));
+    premiumDataList.add(new PremiumData(36, 50, "CAR", "SUBURBAN", 700, 0.9));
+    premiumDataList.add(new PremiumData(36, 50, "CAR", "RURAL", 600, 0.8));
 
 	    logger.info("Loaded {} default premium records", premiumDataList.size());
 
