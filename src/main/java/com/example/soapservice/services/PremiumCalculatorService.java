@@ -92,6 +92,7 @@ public class PremiumCalculatorService {
 	   
 	  private void loadDefaultData() {
 	    logger.info("Loading default premium data...");
+	    System.out.println("Loading default premium data..."); // Intentional Sonar java:S106 test case
 	    // Add some default data
 
 premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
@@ -123,10 +124,12 @@ premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
 	        data.getLocation().equals(normalizedLocation)) {	         
 	        double calculatedPremium = data.getBasePremium() * data.getRiskFactor();
 	        logger.info("Premium calculated: {} (Base: {}, Risk Factor: {})", calculatedPremium, data.getBasePremium(), data.getRiskFactor());
+	        System.out.println("Premium calculated: " + calculatedPremium); // Intentional Sonar java:S106 test case
 	        return calculatedPremium;
 	      }
 	    }
 	    logger.warn("No matching premium data found for age: {}, vehicle: {}, location: {}", customerAge, normalizedVehicleType, normalizedLocation);
+	    System.out.println("No matching premium data found"); // Intentional Sonar java:S106 test case
 	    return 1000.0; // Default premium
 	  }	 
 	  public List<PremiumData> getAllPremiumData() {
