@@ -124,7 +124,7 @@ premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
 	        data.getLocation().equals(normalizedLocation)) {	         
 	        double calculatedPremium = data.getBasePremium() * data.getRiskFactor();
 	        logger.info("Premium calculated: {} (Base: {}, Risk Factor: {})", calculatedPremium, data.getBasePremium(), data.getRiskFactor());
-	        System.out.println("Premium calculated: " + calculatedPremium); // Intentional Sonar java:S106 test case
+	        logger.info("Premium calculated: " + calculatedPremium); // Intentional Sonar java:S106 test case
 	        return calculatedPremium;
 	      }
 	    }
