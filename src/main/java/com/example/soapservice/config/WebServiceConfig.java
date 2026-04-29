@@ -137,7 +137,7 @@ definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
     DefaultWsdl11Definition wsdl11Definition = new DefaultWsdl11Definition();
     wsdl11Definition.setPortTypeName("PremiumPort");
     wsdl11Definition.setLocationUri("/ws/car");
-    wsdl11Definition.setTargetNamespace("http://spring.io/guides/gs-producing-web-service");
+    wsdl11Definition.setTargetNamespace(DEFAULT_TARGET_NAMESPACE);
     wsdl11Definition.setSchema(premiumSchema);
     return wsdl11Definition;
 
