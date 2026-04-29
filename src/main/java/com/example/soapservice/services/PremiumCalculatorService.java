@@ -94,7 +94,7 @@ public class PremiumCalculatorService {
 	    logger.info("Loading default premium data...");
 	    // Add some default data
 
-premiumDataList.add(new PremiumData(18, 25, "CAR", "URBAN", 1200, 1.5));
+premiumDataList.add(new PremiumData(18, 25, "CAR", LOCATION_URBAN, 1200, 1.5));
     premiumDataList.add(new PremiumData(18, 25, "CAR", "SUBURBAN", 1000, 1.3));
     premiumDataList.add(new PremiumData(18, 25, "CAR", "RURAL", 800, 1.1));
     premiumDataList.add(new PremiumData(26, 35, "CAR", "URBAN", 900, 1.2));
