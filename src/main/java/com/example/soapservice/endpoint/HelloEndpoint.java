@@ -34,7 +34,7 @@ import java.util.function.IntConsumer;
 import java.util.function.BiConsumer;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -55,13 +55,14 @@ public class HelloEndpoint {
   
   private final PremiumCalculatorService premiumCalculatorService;
 
-  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService, InjectedDependency injectedDependency) {
     this.premiumCalculatorService = premiumCalculatorService;
+    this.injectedDependency = injectedDependency;
   }
 
   // Intentional test fixture for Sonar rule java:S6813 (field injection).
-  @Autowired
-  private InjectedDependency injectedDependency;
+  
+  private final InjectedDependency injectedDependency;
 
     private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
         setResult.accept(op.applyAsInt(a, b));
