@@ -34,7 +34,7 @@ import java.util.function.IntConsumer;
 import java.util.function.BiConsumer;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
