@@ -55,8 +55,9 @@ public class HelloEndpoint {
   
   private final PremiumCalculatorService premiumCalculatorService;
 
-  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService) {
+  public HelloEndpoint(PremiumCalculatorService premiumCalculatorService, InjectedDependency injectedDependency) {
     this.premiumCalculatorService = premiumCalculatorService;
+    this.injectedDependency = injectedDependency;
   }
 
   // Intentional test fixture for Sonar rule java:S6813 (field injection).
