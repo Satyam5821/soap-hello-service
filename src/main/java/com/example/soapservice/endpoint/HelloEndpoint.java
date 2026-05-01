@@ -60,7 +60,7 @@ public class HelloEndpoint {
   }
 
   // Intentional test fixture for Sonar rule java:S6813 (field injection).
-  @Autowired
+  
   private InjectedDependency injectedDependency;
 
     private <R> R buildIntResultResponse(R response, int a, int b, IntBinaryOperator op, IntConsumer setResult) {
