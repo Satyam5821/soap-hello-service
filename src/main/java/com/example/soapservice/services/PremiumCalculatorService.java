@@ -45,7 +45,7 @@ public class PremiumCalculatorService {
       );
     } catch (NumberFormatException e) {
       logger.warn("Skipping invalid row {}: {}", rowIndex, e.getMessage());
-      System.err.println("Skipping invalid row " + rowIndex + ": " + e.getMessage()); // Intentional Sonar java:S106 test case
+      logger.warn("Skipping invalid row {}: {}", rowIndex, e.getMessage()); // Intentional Sonar java:S106 test case
       return null;
     }
   }
