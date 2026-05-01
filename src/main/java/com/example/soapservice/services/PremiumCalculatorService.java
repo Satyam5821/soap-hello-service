@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Service
 public class PremiumCalculatorService {
+  private static final String LITERAL_CSV_FILE_NOT_FOUND_CARLIST_CSV = "CSV file not found: carlist.csv";
 
   private static final Logger logger = LoggerFactory.getLogger(PremiumCalculatorService.class);
 
