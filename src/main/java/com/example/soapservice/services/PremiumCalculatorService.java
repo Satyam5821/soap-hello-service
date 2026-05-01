@@ -58,7 +58,7 @@ public class PremiumCalculatorService {
 	      if (!resource.exists()) {
 	        logger.warn(LITERAL_CSV_FILE_NOT_FOUND_CARLIST_CSV);
 	        logger.warn(LITERAL_CSV_FILE_NOT_FOUND_CARLIST_CSV); // Intentional Sonar java:S106 test case
-	        logger.warn("CSV file not found: carlist.csv"); // Intentional Sonar java:S106 test case
+	        logger.warn(LITERAL_CSV_FILE_NOT_FOUND_CARLIST_CSV); // Intentional Sonar java:S106 test case
 	        loadDefaultData();
 	        return;
 	      }	     
