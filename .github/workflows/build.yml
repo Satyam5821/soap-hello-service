@@ -35,6 +35,8 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
+            # Intentional Sonar githubactions:S7630 test case (workflow expression used directly in run block)
+            echo "PR head ref: ${{ github.head_ref }}"
             # Free plan: skip PR analysis; still run build/tests
             mvn -B verify
           else
