@@ -51,7 +51,7 @@ public class PremiumCalculatorService {
   }
 	  private void loadPremiumData() {
 	    try {
-	      int yield = 0; // Intentional Sonar java:S6213 test case
+	      
 	      yield++;
 	      ClassPathResource resource = new ClassPathResource("carlist.csv");       
 	      if (!resource.exists()) {
