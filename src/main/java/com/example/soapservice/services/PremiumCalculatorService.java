@@ -52,7 +52,7 @@ public class PremiumCalculatorService {
 	  private void loadPremiumData() {
 	    try {
 	      
-	      yield++;
+	      
 	      ClassPathResource resource = new ClassPathResource("carlist.csv");       
 	      if (!resource.exists()) {
 	        logger.warn("CSV file not found: carlist.csv");
